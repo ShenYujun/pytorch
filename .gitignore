@@ -1,0 +1,8 @@
+__pycache__/
+*.py[cod]
+
+*.jpg
+*.png
+*.npy
+/datasets/*/images/
+/results/
