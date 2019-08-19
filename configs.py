@@ -30,7 +30,7 @@ def get_config(current_environ):
                            'node, is required by `torch.distributed.launch`. '
                            'Please do not modify.')
 
-  parser.add_argument('--work_dir', type=str, default='',
+  parser.add_argument('--work_dir', type=str, required=True,
                       help='Work directory, where all results will be saved.')
   parser.add_argument('--run_mode', type=str, default='train',
                       choices=['train', 'test'],
@@ -38,7 +38,11 @@ def get_config(current_environ):
   parser.add_argument('--skip_final_test', default=False, action='store_true',
                       help='Whether to skip final test at training mode.')
 
-  parser.add_argument('--model_structure', type=str, default='',
+  parser.add_argument('--task_folder', required=True,
+                      help='Folder that contains the running scripts for '
+                           'target task.')
+
+  parser.add_argument('--model_structure', type=str, required=True,
                       help='Structure of the model to deploy.')
   parser.add_argument('--use_pretrain', default=False, action='store_true',
                       help='Whether to use pre-trained weights.')
@@ -73,7 +77,9 @@ def get_config(current_environ):
   parser.add_argument('--weight_decay', type=float, default=5e-4,
                       help='Weight decay for `weight` parameters.')
   parser.add_argument('--weight_decay_bias', type=float, default=0.0,
-                      help='Weight decay for `bias` parameters')
+                      help='Weight decay for `bias` parameters.')
+  parser.add_argument('--optimizer_type', type=str, default='sgd',
+                      help='Optimizer type.')
   parser.add_argument('--momentum', type=float, default=0.9,
                       help='Momentum factor for SGD optimizer.')
   parser.add_argument('--lr_steps', type=str, default='',

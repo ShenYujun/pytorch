@@ -7,12 +7,14 @@ from datetime import timedelta
 
 import torch
 
+# pylint: disable=import-error, no-name-in-module
 from configs import CPU_DEVICE, GPU_DEVICE
 from models.model_handler import get_model
 from data.loader import get_data_loader
 from tools.losses import accuracy
 import utils.checkpoint as ckpt_utils
 import utils.distribute as dist_utils
+# pylint: enable=import-error, no-name-in-module
 
 __all__ = ['test']
 

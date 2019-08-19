@@ -7,15 +7,17 @@ from datetime import timedelta
 import torch
 from tensorboardX import SummaryWriter
 
+# pylint: disable=import-error, no-name-in-module
 from configs import GPU_DEVICE
 from models.model_handler import get_model
 from data.loader import get_data_loader
 from tools.losses import get_loss, accuracy
-from tools.tester import test
+from FacialAttribute.tester import test
 import utils.checkpoint as ckpt_utils
 import utils.distribute as dist_utils
 import utils.logger as log_utils
 import utils.scheduler as sched_utils
+# pylint: enable=import-error, no-name-in-module
 
 __all__ = ['train']
 

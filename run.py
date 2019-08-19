@@ -13,18 +13,23 @@ More details can be found at file `torch/distributed/launch.py`.
 """
 
 import os
+import sys
 import torch
 
 from configs import get_config
 from utils.logger import setup_logger
 from utils.distribute import get_rank, get_env_info
-from tools.trainer import train
-from tools.tester import test
 
 
 def main():
   """Main function to run model."""
   config = get_config(os.environ)
+
+  sys.path.append(config.task_folder)
+  # pylint: disable=import-error
+  from trainer import train
+  from tester import test
+  # pylint: enable=import-error
 
   if config.is_distributed:
     torch.cuda.set_device(config.local_rank)
