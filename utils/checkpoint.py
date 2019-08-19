@@ -12,7 +12,7 @@ def strip_prefix(state_dict, prefix='module.'):
   if not all(key.startswith(prefix) for key in state_dict.keys()):
     return state_dict
   stripped_state_dict = {}
-  for key in state_dict.keys():
+  for key in list(state_dict.keys()):
     stripped_state_dict[key.replace(prefix, '')] = state_dict.pop(key)
   return stripped_state_dict
 

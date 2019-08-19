@@ -15,6 +15,7 @@ class FixedStepBatchSampler(Sampler):
   """Warps batch sampler with fixed number of steps."""
 
   def __init__(self, batch_sampler, max_step, start_step=0):
+    super().__init__(data_source=None)
     assert max_step > 0
     self.batch_sampler = batch_sampler
     self.max_step = max_step
