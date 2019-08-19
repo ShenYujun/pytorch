@@ -111,8 +111,14 @@ def get_config(current_environ):
                       help='Batch size assigned to each GPU.')
   parser.add_argument('--num_workers_per_gpu', type=int, default=1,
                       help='Number of works to load data on each GPU.')
+  parser.add_argument('opts', default=None, nargs=argparse.REMAINDER,
+                      help='Additional arguments (optional).')
 
   config = parser.parse_args()
+  for opt in config.opts:
+    key, val = opt.split('=')
+    setattr(config, key, val)
+  del config.opts
 
   if not config.work_dir:
     raise SystemExit(f'Work directory should be specified!')
