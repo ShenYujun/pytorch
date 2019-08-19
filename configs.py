@@ -119,13 +119,13 @@ def get_config(current_environ):
   if not config.model_structure:
     raise SystemExit(f'Model structure should be specified!')
   if config.run_mode == 'train' and not config.train_dataset_name:
-    raise SystemExit(f'Dataset should be specified at `train` mode!')
-  if (config.run_mode == 'train' and config.skip_final_test and
+    raise SystemExit(f'Training dataset should be specified at `train` mode!')
+  if (config.run_mode == 'train' and not config.skip_final_test and
       not config.test_dataset_name):
-    raise SystemExit(f'Dataset should be specified at `train` mode '
+    raise SystemExit(f'Testing dataset should be specified at `train` mode '
                      f'with final test!')
   if config.run_mode == 'test' and not config.test_dataset_name:
-    raise SystemExit(f'Dataset should be specified at `test` mode!')
+    raise SystemExit(f'Testing dataset should be specified at `test` mode!')
   if not config.data_transform:
     raise SystemExit(f'Data transform should be specified!')
   if config.run_mode == 'test' and not config.test_model_path:
