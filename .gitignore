@@ -4,5 +4,12 @@ __pycache__/
 *.jpg
 *.png
 *.npy
+
+results/
+log.txt
+*.pth
+last_checkpoint
+events.out.tfevents.*
+
 /datasets/*/images/
-/results/
+/datasets/*/images
