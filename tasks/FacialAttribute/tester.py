@@ -26,7 +26,7 @@ def test(config, logger, model=None):
   if model is None:
     logger.info(f'Deploy model.')
     model = get_model(model_name=config.model_structure,
-                      use_pretrain=config.use_pretrain,
+                      pretrained=config.use_pretrain,
                       num_classes=config.num_classes)
     model.to(GPU_DEVICE)
 
@@ -48,6 +48,7 @@ def test(config, logger, model=None):
   predictions = {}
   for _, (images, _, image_ids) in enumerate(data_loader):
     images = images.to(GPU_DEVICE)
+    image_ids = image_ids.tolist()
     with torch.no_grad():
       outputs = model(images)
       outputs = [output.to(CPU_DEVICE) for output in outputs]

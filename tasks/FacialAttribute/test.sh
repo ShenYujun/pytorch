@@ -2,18 +2,21 @@
 
 # label_id: 15 means eyeglasses, 20 means gender, 31 means smile, 39 means age
 
+NUM_GPUS="$1"
 TASK_NAME="FacialAttribute"
-CKPT_ITER="0010000"
+SUBTASK="smile"
+CKPT_STEPS="0010000"
 
+MODEL_DIR="tasks/$TASK_NAME/results/$SUBTASK"
 python -m torch.distributed.launch \
-       --nproc_per_node="$1" \
+       --nproc_per_node=$NUM_GPUS \
        run.py \
        --task_folder=$TASK_NAME \
-       --work_dir="$TASK_NAME/results/smile/val_iter_${CKPT_ITER}" \
+       --work_dir="$MODEL_DIR/val_iter_$CKPT_STEPS" \
        --run_mode="test" \
        --model_structure="resnet50" \
        --num_classes=2 \
-       --test_model_path="$TASK_NAME/results/smile/model-${CKPT_ITER}.pth" \
+       --test_model_path="$MODEL_DIR/model-$CKPT_STEPS.pth" \
        --test_dataset_name="celebahq" \
        --test_image_dir="datasets/celebahq/images/" \
        --test_label_file="datasets/celebahq/attr_val.txt" \

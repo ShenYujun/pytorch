@@ -2,19 +2,23 @@
 
 # label_id: 15 means eyeglasses, 20 means gender, 31 means smile, 39 means age
 
+NUM_GPUS="$1"
 TASK_NAME="FacialAttribute"
+SUBTASK="smile"
 TRAINING_STEPS=10000
 
+WORK_DIR="tasks/$TASK_NAME/results/$SUBTASK"
 python -m torch.distributed.launch \
-       --nproc_per_node="$1" \
+       --nproc_per_node="$NUM_GPUS" \
        run.py \
-       --task_folder="$TASK_NAME" \
-       --work_dir="$TASK_NAME/results/smile" \
+       --task_folder=$TASK_NAME \
+       --work_dir=$WORK_DIR \
        --run_mode="train" \
        --model_structure="resnet50" \
        --num_classes=2 \
        --max_step=$TRAINING_STEPS \
        --lr_base=0.01 \
+       --lr_warmup_steps=500 \
        --lr_steps="8000,9000" \
        --train_dataset_name="celebahq" \
        --train_image_dir="datasets/celebahq/images/" \

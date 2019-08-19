@@ -25,7 +25,7 @@ def main():
   """Main function to run model."""
   config = get_config(os.environ)
 
-  sys.path.append(config.task_folder)
+  sys.path.append(os.path.join('tasks', config.task_folder))
   # pylint: disable=import-error
   from trainer import train
   from tester import test

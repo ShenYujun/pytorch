@@ -1,6 +1,7 @@
 # python3.7
 """Contains training tools."""
 
+import os.path
 from time import time
 from datetime import timedelta
 
@@ -12,7 +13,7 @@ from configs import GPU_DEVICE
 from models.model_handler import get_model
 from data.loader import get_data_loader
 from tools.losses import get_loss, accuracy
-from FacialAttribute.tester import test
+from tasks.FacialAttribute.tester import test
 import utils.checkpoint as ckpt_utils
 import utils.distribute as dist_utils
 import utils.logger as log_utils
@@ -28,7 +29,7 @@ def train(config, logger):
 
   logger.info(f'Deploy model.')
   model = get_model(model_name=config.model_structure,
-                    use_pretrain=config.use_pretrain,
+                    pretrained=config.use_pretrain,
                     num_classes=config.num_classes)
   model.to(GPU_DEVICE)
   if config.is_distributed:
@@ -118,4 +119,7 @@ def train(config, logger):
 
   if not config.skip_final_test:
     config.run_mode = 'test'
+    config.work_dir = os.path.join(config.work_dir, 'final_test')
+    if is_chef:
+      os.makedirs(config.work_dir)
     test(config, logger, model)
