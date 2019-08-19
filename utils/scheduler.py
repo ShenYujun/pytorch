@@ -70,7 +70,14 @@ def get_optimizer(config, model):
       weight_decay = config.weight_decay
     params.append({'params': [val], 'lr': lr, 'weight_decay': weight_decay})
 
-  optimizer = torch.optim.SGD(params, lr, momentum=config.momentum)
+  optimizer_type = config.optimizer_type.lower()
+  if optimizer_type == 'sgd':
+    optimizer = torch.optim.SGD(params, lr, momentum=config.momentum)
+  elif optimizer_type == 'adam':
+    optimizer = torch.optim.Adam(params, lr)
+  else:
+    raise ValueError(f'Optimizer type `{optimizer_type}` is not supported!')
+
   return optimizer
 
 
