@@ -149,6 +149,7 @@ def get_config(current_environ):
   config.is_distributed = (config.num_gpus > 1)
 
   config.save_step = config.max_step // config.save_times
+  config.log_interval = min(config.log_interval, config.save_step)
   if not config.lr_steps:
     config.lr_steps = []
   else:

@@ -37,8 +37,7 @@ def main():
 
   logger = setup_logger(config.work_dir, distributed_rank=get_rank())
   logger.info(f'Using {config.num_gpus} GPUs.')
-  logger.info(f'Collecting environment info:')
-  logger.info(f'{get_env_info()}')
+  logger.info(f'Collecting environment info:{get_env_info()}')
   logger.info(f'------------------------------')
   logger.info(f'Running configurations:')
   for key, val in config.__dict__.items():
