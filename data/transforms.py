@@ -6,8 +6,8 @@ import torchvision.transforms as transforms
 __all__ = ['get_transform']
 
 
-def simple_face_transforms(config):
-  """Defines the simple transformation for face images.
+def simple_classification_transforms(config):
+  """Defines the simple transformation for classification task.
 
   Basically, it pre-processes the image with following steps:
   (1) Randomly flip the image horizontally (for training only).
@@ -23,18 +23,40 @@ def simple_face_transforms(config):
                                      ratio=(1.0, 1.0)),
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                             std=[0.229, 0.224, 0.225])])
+                             std=[0.229, 0.224, 0.225]),
+    ])
   else:
     transform = transforms.Compose([
         transforms.Resize(size=config.input_size),
         transforms.ToTensor(),
         transforms.Normalize(mean=[0.485, 0.456, 0.406],
-                             std=[0.229, 0.224, 0.225])])
+                             std=[0.229, 0.224, 0.225]),
+    ])
+  return transform
+
+
+def simple_generation_transforms(config):
+  """Defines the simple transformation for image generation task.
+
+  Basically, it pre-processes the image with following steps:
+  (1) Randomly flip the image horizontally.
+  (2) Crop the image.
+  (3) Convert the image to torch.Tensor with range [0, 1] and in `CHW` format.
+  (4) Normalize the image.
+  """
+  flip_rate = 0.5 if config.run_mode == 'train' else 0.0
+  transform = transforms.Compose([
+      transforms.RandomHorizontalFlip(flip_rate),
+      transforms.Resize(size=config.input_size),
+      transforms.ToTensor(),
+      transforms.Normalize(mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]),
+  ])
   return transform
 
 
 TRANSFORMS = {
-    'simple_face': simple_face_transforms,
+    'simple_classification': simple_classification_transforms,
+    'simple_generation': simple_generation_transforms,
 }
 
 

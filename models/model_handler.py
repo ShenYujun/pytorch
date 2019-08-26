@@ -2,6 +2,7 @@
 """Contains a collection of supported models."""
 
 import torchvision.models as models
+from .vqvae import VQVAE2
 
 __all__ = ['get_model']
 
@@ -61,14 +62,17 @@ MODELS = {
     'maskrcnn_resnet50': models.detection.maskrcnn_resnet50_fpn,
     # Keypoint R-CNN
     'keypoint_resnet50': models.detection.keypointrcnn_resnet50_fpn,
+
+    ### GENERATIVE MODEL ###
+    'vqvae2': VQVAE2,
 }
 
 
-def get_model(model_name, use_pretrain=False, **kwargs):
+def get_model(model_name, **kwargs):
   """Gets model by name and loads pre-trained model if needed."""
   model_name = model_name.lower()
   try:
-    model = MODELS[model_name](pretrained=use_pretrain, **kwargs)
+    model = MODELS[model_name](**kwargs)
   except KeyError:
     raise ValueError(f'Model `{model_name}` is not supported!\n'
                      f'Please choose from {list(MODELS)}.')
